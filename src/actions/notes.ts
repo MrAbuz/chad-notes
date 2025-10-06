@@ -4,7 +4,6 @@ import { getUser } from "@/auth/server";
 import { prisma } from "@/db/prisma";
 import { handleError } from "@/lib/utils";
 import openai from "@/openai";
-import { notStrictEqual } from "assert";
 import { ChatCompletionMessageParam } from "openai/resources/index.mjs";
 
 export const createNoteAction = async (noteId: string) => {
@@ -78,7 +77,7 @@ export const askAIAboutNotesAction = async (
   //formated like this with `` to do a paragraph
   //trim() removes the space before text, created at etc
   const formattedNotes = notes
-    .map((note) =>
+    .map((note: { text: string; createdAt: Date; updatedAt: Date }) =>
       `
       Text: ${note.text}
       Created at: ${note.createdAt}
