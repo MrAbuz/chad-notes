@@ -5,12 +5,23 @@ import {
   SidebarGroupLabel,
 } from "@/components/ui/sidebar";
 import { prisma } from "@/db/prisma";
-import { Note } from "@prisma/client";
+//import { Note } from "@prisma/client";
 import { getUser } from "@/auth/server";
 import Link from "next/link";
 import SidebarGroupContent from "./SidebarGroupContent";
+import type { Prisma } from "@prisma/client";
 
 async function AppSidebar() {
+  type Note = Prisma.NoteGetPayload<{
+    select: {
+      id: true;
+      text: true;
+      createdAt: true;
+      updatedAt: true;
+      authorId: true;
+    };
+  }>;
+
   const user = await getUser();
 
   let notes: Note[] = [];
